@@ -29,9 +29,12 @@ async function runOnWorker (workerFile, message) {
       if (error) {
         const err = new WorkerError(error.message);
         if (error.code) err.code = error.code;
-        return reject(err);
+        reject(err);
+      } else {
+        resolve(response);
       }
-      resolve(response);
+      // gracefully exit the worker if it hasn't done so itself.
+      worker.kill();
     });
     worker.once('exit', code => {
       if (code !== 0) reject(new WorkerError(`worker exited with code: ${code}`));

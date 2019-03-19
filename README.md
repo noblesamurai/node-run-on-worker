@@ -1,4 +1,4 @@
-# run-on-worker [![Build Status](https://secure.travis-ci.org/noblesamurai/node-run-on-worker.png?branch=master)](http://travis-ci.org/noblesamurai/node-run-on-worker) [![NPM version](https://badge-me.herokuapp.com/api/npm/node-run-on-worker.png)](http://badges.enytc.com/for/npm/node-run-on-worker)
+# Run On Worker [![Build Status](https://secure.travis-ci.org/noblesamurai/node-run-on-worker.png?branch=master)](http://travis-ci.org/noblesamurai/node-run-on-worker) [![Maintainability](https://api.codeclimate.com/v1/badges/8eedb3b307882391272e/maintainability)](https://codeclimate.com/github/noblesamurai/node-run-on-worker/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/8eedb3b307882391272e/test_coverage)](https://codeclimate.com/github/noblesamurai/node-run-on-worker/test_coverage)
 
 > Run a node.js module in a separate process using cluster.
 

@@ -13,7 +13,7 @@
     "pretest": "semistandard",
     "test": "mocha --recursive test",
     "watch": "mocha --recursive --watch test",
-    "docs": "jsdoc2md index.js"
+    "docs": "jsdoc2md src/index.js"
   },
   "homepage": "https://github.com/noblesamurai/node-run-on-worker",
   "repository": {
@@ -37,9 +37,7 @@
     "jsdoc-to-markdown": "^4.0.1",
     "mocha": "^6.0.2",
     "nyc": "^13.3.0",
-    "semistandard": "*",
-    "sinon": "^7.2.7",
-    "sinon-chai": "^3.3.0"
+    "semistandard": "*"
   },
   "keywords": [],
   "nyc": {

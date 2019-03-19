@@ -14,7 +14,7 @@ module.exports = runOnWorker;
  * { error: { message, code } } object instead.
  *
  * @param {string} workerFile file to run as the worker process
- * @param {*] message anything that can be JSON stringified to be went to the
+ * @param {*} message anything that can be JSON stringified to be went to the
  *   worker process.
  * @returns {*} JSON.parsed response from the worker
  * @throws WorkerError

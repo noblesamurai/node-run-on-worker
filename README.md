@@ -1,25 +1,6 @@
-# run-on-worker [![Build Status](https://secure.travis-ci.org/noblesamurai/node-run-on-worker.png?branch=master)](http://travis-ci.org/noblesamurai/node-run-on-worker) [![NPM version](https://badge-me.herokuapp.com/api/npm/node-run-on-worker.png)](http://badges.enytc.com/for/npm/node-run-on-worker)
+# Run On Worker [![Build Status](https://secure.travis-ci.org/noblesamurai/node-run-on-worker.png?branch=master)](http://travis-ci.org/noblesamurai/node-run-on-worker) [![Maintainability](https://api.codeclimate.com/v1/badges/8eedb3b307882391272e/maintainability)](https://codeclimate.com/github/noblesamurai/node-run-on-worker/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/8eedb3b307882391272e/test_coverage)](https://codeclimate.com/github/noblesamurai/node-run-on-worker/test_coverage)
 
 > Run a node.js module in a separate process using cluster.
-
-## Purpose
-- What problem does this module solve? At least a few sentences.
-PLEASE_FILL_IN_HERE
-
-## Usage
-
-```js
-// Several examples of usage.
-// Usually copying and pasting code from the tests and making the code standalone suffices.
-// PLEASE_FILL_IN_HERE
-```
-
-## API
-
-PLEASE_FILL_IN_HERE
-
-Note: To regenerate this section from the jsdoc run `npm run docs` and paste
-the output above.
 
 ## Installation
 
@@ -28,6 +9,63 @@ This module is installed via npm:
 ``` bash
 $ npm install run-on-worker
 ```
+
+## Usage
+
+```js
+// worker.js
+process.once('uncaughtException', process.exit.bind(process, 1));
+process.once('unhandledRejection', process.exit.bind(process, 1));
+process.once('message', request => {
+  try {
+    const message = JSON.parse(request);
+    const response = message.reduce((acc, n) => acc + n, 0);
+    process.send(JSON.stringify({ response }));
+  } catch (err) {
+    process.send(JSON.stringify({ error: { message: err.message, code: 42 } }));
+  }
+  process.exit();
+});
+
+// main.js
+async function sum (values) {
+  const workerFile = path.resolve(__dirname, 'worker.js');
+  return runOnWorker(workerFile, values);
+}
+
+try {
+  const result = await sum([ 2, 3, 6 ]); // 11
+} catch (err) {
+}
+```
+
+## API
+
+<a name="runOnWorker"></a>
+
+## runOnWorker(workerFile, message) ⇒ <code>\*</code>
+Run a process on a worker and return the results.
+
+The worker will receive a JSON stringified message object and should return
+a JSON stringified { response: 'what you want returned' } object. If there
+is an error response that can be returned with a JSON stringified
+{ error: { message, code } } object instead.
+
+**Kind**: global function
+**Returns**: <code>\*</code> - JSON.parsed response from the worker
+**Throws**:
+
+- WorkerError
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| workerFile | <code>string</code> | file to run as the worker process |
+| message | <code>\*</code> | anything that can be JSON stringified to be went to the   worker process. |
+
+Note: To regenerate this section from the jsdoc run `npm run docs` and paste
+the output above.
+
 ## License
 
 The BSD License
@@ -60,4 +98,3 @@ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
 ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-

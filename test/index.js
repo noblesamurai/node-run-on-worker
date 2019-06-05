@@ -16,6 +16,22 @@ describe('lib: run-on-worker', function () {
     await expect(request).to.eventually.be.rejected.to.include({ name: 'WorkerError', message: 'bang!!!', code: 42 });
   });
 
+  it('allow for progress updates', function (done) {
+    const message = 'progress';
+    let calls = 0;
+    runOnWorker(workerFile, message, progress => {
+      console.log(progress);
+      if (calls === 0) {
+        expect(progress).to.equal(42);
+      }
+      if (calls === 1) {
+        expect(progress).to.equal(43);
+        done();
+      }
+      calls++;
+    });
+  });
+
   it('should handle error on worker exit', async function () {
     const message = 'die';
     const request = runOnWorker(workerFile, message);

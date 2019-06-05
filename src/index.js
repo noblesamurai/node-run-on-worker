@@ -19,17 +19,20 @@ module.exports = runOnWorker;
  * @returns {*} JSON.parsed response from the worker
  * @throws WorkerError
  */
-async function runOnWorker (workerFile, message) {
+async function runOnWorker (workerFile, message, onProgress = () => {}) {
   if (!cluster.isMaster) return;
   cluster.setupMaster({ exec: workerFile });
   return new Promise((resolve, reject) => {
     const worker = cluster.fork();
-    worker.once('message', message => {
-      const { error, response } = JSON.parse(message);
+    worker.on('message', message => {
+      const { error, response, progress } = JSON.parse(message);
       if (error) {
         const err = new WorkerError(error.message);
         if (error.code) err.code = error.code;
         reject(err);
+      } else if (progress) {
+        onProgress(progress);
+        return;
       } else {
         resolve(response);
       }

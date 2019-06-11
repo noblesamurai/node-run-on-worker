@@ -1,7 +1,7 @@
 {
   "name": "run-on-worker",
   "description": "Run a node.js module in a separate process using cluster.",
-  "version": "1.0.0",
+  "version": "1.1.0-progress-events.1",
   "author": "Andrew Harris. <andrew@noblesamurai.com>",
   "license": "BSD",
   "main": "src/index.js",
@@ -37,7 +37,9 @@
     "jsdoc-to-markdown": "^4.0.1",
     "mocha": "^6.0.2",
     "nyc": "^13.3.0",
-    "semistandard": "*"
+    "semistandard": "*",
+    "sinon": "^7.3.2",
+    "sinon-chai": "^3.3.0"
   },
   "keywords": [],
   "nyc": {

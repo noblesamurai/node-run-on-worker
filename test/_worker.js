@@ -8,6 +8,8 @@ async function onMessageHandler (request) {
     case 'die':
       process.exit(1);
     default:
+      process.send(JSON.stringify({ progress: 42 }));
+      process.send(JSON.stringify({ progress: 43 }));
       process.send(JSON.stringify({ response: message }));
       break;
   }

@@ -43,13 +43,18 @@ try {
 
 <a name="runOnWorker"></a>
 
-## runOnWorker(workerFile, message) ⇒ <code>\*</code>
+## runOnWorker(workerFile, message, onProgress) ⇒ <code>\*</code>
 Run a process on a worker and return the results.
 
 The worker will receive a JSON stringified message object and should return
 a JSON stringified { response: 'what you want returned' } object. If there
 is an error response that can be returned with a JSON stringified
 { error: { message, code } } object instead.
+
+If you provided an onProgress function, it will get anything the worker sends back thusly:
+```js
+process.send(JSON.stringify({ progress: data }));
+```
 
 **Kind**: global function
 **Returns**: <code>\*</code> - JSON.parsed response from the worker

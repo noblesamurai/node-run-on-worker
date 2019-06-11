@@ -37,7 +37,9 @@
     "jsdoc-to-markdown": "^4.0.1",
     "mocha": "^6.0.2",
     "nyc": "^13.3.0",
-    "semistandard": "*"
+    "semistandard": "*",
+    "sinon": "^7.3.2",
+    "sinon-chai": "^3.3.0"
   },
   "keywords": [],
   "nyc": {

@@ -1,7 +1,7 @@
 {
   "name": "run-on-worker",
   "description": "Run a node.js module in a separate process using cluster.",
-  "version": "1.1.0-progress-events.0",
+  "version": "1.1.0-progress-events.1",
   "author": "Andrew Harris. <andrew@noblesamurai.com>",
   "license": "BSD",
   "main": "src/index.js",

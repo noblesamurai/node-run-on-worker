@@ -20,7 +20,6 @@ describe('lib: run-on-worker', function () {
     const message = 'progress';
     let calls = 0;
     runOnWorker(workerFile, message, progress => {
-      console.log(progress);
       if (calls === 0) {
         expect(progress).to.equal(42);
       }

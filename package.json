@@ -28,17 +28,17 @@
     "npm": "5.x"
   },
   "dependencies": {
-    "error-ex": "^1.3.2"
+    "serialize-error": "^8.0.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "dirty-chai": "^2.0.1",
-    "jsdoc-to-markdown": "^4.0.1",
-    "mocha": "^6.0.2",
-    "nyc": "^13.3.0",
+    "jsdoc-to-markdown": "^6.0.1",
+    "mocha": "^8.2.1",
+    "nyc": "^15.1.0",
     "semistandard": "*",
-    "sinon": "^7.3.2",
+    "sinon": "^9.2.3",
     "sinon-chai": "^3.3.0"
   },
   "keywords": [],

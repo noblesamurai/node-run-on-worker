@@ -14,6 +14,8 @@ $ npm install run-on-worker
 
 ```js
 // worker.js
+const { serializeError } = require('serialize-error');
+
 process.once('uncaughtException', process.exit.bind(process, 1));
 process.once('unhandledRejection', process.exit.bind(process, 1));
 process.once('message', request => {
@@ -22,7 +24,9 @@ process.once('message', request => {
     const response = message.reduce((acc, n) => acc + n, 0);
     process.send(JSON.stringify({ response }));
   } catch (err) {
-    process.send(JSON.stringify({ error: { message: err.message, code: 42 } }));
+    process.send(JSON.stringify({ error: serializeError(err) }));
+    // or if you want to use serialize-error
+    // process.send(JSON.stringify({ error: { message: err.message, code: 42 } });
   }
   process.exit();
 });
@@ -43,24 +47,24 @@ try {
 
 <a name="runOnWorker"></a>
 
-## runOnWorker(workerFile, message, onProgress) ⇒ <code>\*</code>
+## runOnWorker(workerFile, message) ⇒ <code>\*</code>
 Run a process on a worker and return the results.
 
 The worker will receive a JSON stringified message object and should return
-a JSON stringified { response: 'what you want returned' } object. If there
-is an error response that can be returned with a JSON stringified
-{ error: { message, code } } object instead.
+a JSON stringified response `{ response }` or `{ error }` object. If an
+`onProgress` function is provided, it will recieve info sent back from the
+worker via a stringified `{ progress }` object.
 
-If you provided an onProgress function, it will get anything the worker sends back thusly:
-```js
-process.send(JSON.stringify({ progress: data }));
-```
+If an error is returned it will be automatically converted into an Error
+using the deserialise function provided in the `serialize-error` module. The
+worker can also use the `serialize-error` module to serialise errors to be
+returned.
 
 **Kind**: global function
 **Returns**: <code>\*</code> - JSON.parsed response from the worker
 **Throws**:
 
-- WorkerError
+- Error
 
 
 | Param | Type | Description |

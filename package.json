@@ -24,8 +24,8 @@
     "url": "https://github.com/noblesamurai/node-run-on-worker/issues"
   },
   "engines": {
-    "node": "8.x",
-    "npm": "5.x"
+    "node": "^10 || ^12 || ^14",
+    "npm": "6.x"
   },
   "dependencies": {
     "serialize-error": "^8.0.0"

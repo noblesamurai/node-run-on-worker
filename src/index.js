@@ -1,7 +1,5 @@
 const cluster = require('cluster');
-const errorEx = require('error-ex');
-
-const WorkerError = errorEx('WorkerError');
+const { deserializeError } = require('serialize-error');
 
 module.exports = runOnWorker;
 
@@ -9,15 +7,20 @@ module.exports = runOnWorker;
  * Run a process on a worker and return the results.
  *
  * The worker will receive a JSON stringified message object and should return
- * a JSON stringified { response: 'what you want returned' } object. If there
- * is an error response that can be returned with a JSON stringified
- * { error: { message, code } } object instead.
+ * a JSON stringified response `{ response }` or `{ error }` object. If an
+ * onProgress function is provided, it will recieve info sent back from the
+ * worker via a stringified `{ progress }` object.
+ *
+ * If an error is returned it will be automatically converted into an Error
+ * using the deserialise function provided in the `serialize-error` module. The
+ * worker can also use the `serialize-error` module to serialise errors to be
+ * returned.
  *
  * @param {string} workerFile file to run as the worker process
  * @param {*} message anything that can be JSON stringified to be went to the
  *   worker process.
  * @returns {*} JSON.parsed response from the worker
- * @throws WorkerError
+ * @throws Error
  */
 async function runOnWorker (workerFile, message, onProgress = () => {}) {
   if (!cluster.isMaster) return;
@@ -27,9 +30,7 @@ async function runOnWorker (workerFile, message, onProgress = () => {}) {
     worker.on('message', message => {
       const { error, response, progress } = JSON.parse(message);
       if (error) {
-        const err = new WorkerError(error.message);
-        if (error.code) err.code = error.code;
-        reject(err);
+        reject(deserializeError(error));
       } else if (progress) {
         onProgress(progress);
         return;
@@ -40,7 +41,7 @@ async function runOnWorker (workerFile, message, onProgress = () => {}) {
       worker.kill();
     });
     worker.once('exit', code => {
-      if (code !== 0) reject(new WorkerError(`worker exited with code: ${code}`));
+      if (code !== 0) reject(new Error(`worker exited with code: ${code}`));
     });
     worker.send(JSON.stringify(message));
   });

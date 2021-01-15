@@ -1,7 +1,7 @@
 {
   "name": "run-on-worker",
   "description": "Run a node.js module in a separate process using cluster.",
-  "version": "2.0.0-beta.0",
+  "version": "2.0.0",
   "author": "Andrew Harris. <andrew@noblesamurai.com>",
   "license": "BSD",
   "main": "src/index.js",

@@ -75,6 +75,20 @@ returned.
 Note: To regenerate this section from the jsdoc run `npm run docs` and paste
 the output above.
 
+## Contributing
+
+### Prerequisites
+
+```
+$ pip install pre-commit
+```
+
+### Installation
+
+```
+$ pre-commit install --install-hooks
+```
+
 ## License
 
 The BSD License
